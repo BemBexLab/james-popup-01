@@ -1,0 +1,76 @@
+{
+  "stats": [
+    {
+      "id": "winning-reward",
+      "icon": "gift",
+      "iconImage": "assets/Mask group.png",
+      "label": "Winning Team Reward",
+      "value": "50.00 USD"
+    },
+    {
+      "id": "final-round",
+      "icon": "trophy",
+      "iconImage": "assets/Mask group (1).png",
+      "label": "Final Round",
+      "value": "1,000.00 USD"
+    },
+    {
+      "id": "battle-period",
+      "icon": "calendar",
+      "iconImage": "assets/Mask group (2).png",
+      "label": "Battle period",
+      "value": "30 days"
+    }
+  ],
+  "teams": [
+    {
+      "id": "team-one",
+      "image": "assets/Rectangle 5 (1).png",
+      "imageAlt": "Breakdancer performing on a purple-lit dance floor",
+      "avatar": "assets/Rectangle 6.png",
+      "creativeIndex": "12233",
+      "title": "Test for PlayGround in Approved Task",
+      "description": "Lorem Ipsum is simply dummy text",
+      "creator": "Vickey Roy",
+      "subscribers": "11.5 M subs",
+      "subscribeLabel": "Subscribe",
+      "memberCount": 3
+    },
+    {
+      "id": "team-two",
+      "image": "assets/Rectangle 5.png",
+      "imageAlt": "Dancer performing in a colorful studio",
+      "avatar": "assets/Rectangle 6 (1).png",
+      "creativeIndex": "10123",
+      "title": "Test for PlayGround in Approved Task",
+      "description": "Lorem Ipsum is simply dummy text",
+      "creator": "Vickey Roy",
+      "subscribers": "11.5 M subs",
+      "subscribeLabel": "Subscribe",
+      "memberCount": 3
+    }
+  ],
+  "slides": [
+    {
+      "image": "assets/Rectangle 5.png",
+      "thumbnail": "assets/Rectangle 11.png",
+      "alt": "Dancer performing in a colorful studio"
+    },
+    {
+      "image": "assets/Rectangle 5 (1).png",
+      "thumbnail": "assets/Rectangle 11.png",
+      "alt": "Breakdancer performing on a purple-lit dance floor"
+    },
+    {
+      "image": "assets/Rectangle 11.png",
+      "thumbnail": "assets/Rectangle 11.png",
+      "alt": "Full-length view of a dancer in the studio"
+    }
+  ],
+  "document": {
+    "url": "assets/battle-details.pdf",
+    "filename": "Battle-Detail.pdf",
+    "caption": "Booking provided in the",
+    "title": "Battle Detail PDF"
+  }
+}
