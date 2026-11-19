@@ -18,6 +18,56 @@
       defer=""
       src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.9/dist/cdn.min.js"
     ></script>
+    <style>
+      .image-frame {
+        position: relative;
+        overflow: hidden;
+        background: #eae7ed;
+      }
+      .image-frame::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: linear-gradient(100deg, transparent 20%, #ffffff80 50%, transparent 80%);
+        transform: translateX(-100%);
+      }
+      .image-frame[data-state="loading"]::before,
+      .image-frame[data-pending="true"]::before {
+        animation: skeleton-shimmer 1.4s ease-in-out infinite;
+      }
+      .image-frame > img {
+        opacity: 0;
+      }
+      .image-frame[data-state="loaded"] > img {
+        opacity: 1;
+      }
+      @keyframes skeleton-shimmer {
+        to { transform: translateX(100%); }
+      }
+      [data-ui="subscribe"] {
+        transition: background-color 180ms ease, border-color 180ms ease;
+      }
+      [data-ui="subscribe"][aria-pressed="true"] {
+        border-color: #e6bc2f;
+      }
+      .subscribe-check {
+        stroke-dasharray: 1;
+        stroke-dashoffset: 1;
+        transition: stroke-dashoffset 280ms ease 80ms;
+      }
+      [aria-pressed="true"] .subscribe-check {
+        stroke-dashoffset: 0;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .image-frame::before {
+          animation: none !important;
+        }
+        [data-ui="subscribe"], .subscribe-check {
+          transition: none;
+        }
+      }
+    </style>
   </head>
   <body class="bg-[#f8f6fa] font-[Manrope,Arial,sans-serif] m-0">
     <svg
@@ -141,11 +191,12 @@
               ></button>
               <div
                 data-ui="team-photo"
-                class="relative w-full aspect-[626/216] overflow-hidden"
+                class="image-frame relative w-full aspect-[626/216] overflow-hidden"
+                data-state="loading"
               >
                 <img
                   class="block w-full h-full object-cover"
-                  :src="team.image"
+                  x-image="team.image"
                   :alt="team.imageAlt"
                   :class="team.imagePosition === 'top' ? 'object-top' : 'object-center'"
                 />
@@ -167,11 +218,11 @@
                 data-ui="team-description"
                 class="mt-[13px] flex min-h-[47px] min-w-0 items-center gap-[23px] max-[1100px]:gap-3"
               >
-                <div class="relative h-11 w-11 shrink-0 overflow-hidden">
+                <div class="image-frame relative h-11 w-11 shrink-0 overflow-hidden" data-state="loading">
                   <img
                     data-ui="avatar"
                     class="absolute -left-[2.5px] -top-[2.5px] h-[49px] w-[49px] max-w-none object-cover"
-                    :src="team.avatar"
+                    x-image="team.avatar"
                     :alt="team.creator + ' portrait'"
                   />
                 </div>
@@ -202,17 +253,24 @@
                 </div>
                 <button
                   data-ui="subscribe"
-                  class="relative z-20 flex h-6 min-w-[78px] shrink-0 items-center justify-center gap-[5px] border border-[#e3e4e8] bg-transparent px-[5px] text-[11px] leading-[14px] font-semibold whitespace-nowrap hover:bg-[#fff3bb] aria-pressed:bg-[#fff3bb] max-[768px]:h-9 max-[768px]:px-2"
+                  class="relative z-20 flex h-6 min-w-[94px] shrink-0 items-center justify-center gap-[5px] border border-[#e3e4e8] bg-transparent px-[5px] text-[11px] leading-[14px] font-semibold whitespace-nowrap hover:bg-[#fff3bb] aria-pressed:bg-[#fff3bb] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#a78200] max-[768px]:h-9 max-[768px]:px-2"
                   type="button"
-                  @click.stop="toggleSubscription(team.id)"
+                  @click.stop="toggleSubscription(team.id, $el)"
                   :aria-pressed="!!subscriptions[team.id]"
                 >
-                  <img
-                    data-ui="subscribe-icon"
-                    class="w-[8px] h-[9px]"
-                    src="assets/Vector.svg"
-                    alt=""
-                  /><span
+                  <span class="relative grid h-[10px] w-[10px] shrink-0 place-items-center" aria-hidden="true">
+                    <img
+                      data-ui="subscribe-icon"
+                      class="w-[8px] h-[9px]"
+                      src="assets/Vector.svg"
+                      alt=""
+                      :style="{ opacity: subscriptions[team.id] ? 0 : 1 }"
+                    />
+                    <svg class="absolute inset-0 h-[10px] w-[10px]" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                      <path class="subscribe-check" pathLength="1" d="m2 6 2.5 2.5L10 3" />
+                    </svg>
+                  </span>
+                  <span
                     x-text="subscriptions[team.id] ? 'Subscribed' : team.subscribeLabel"
                   ></span>
                 </button>
@@ -286,11 +344,13 @@
                 :aria-pressed="activeTeamId === team.id"
                 @click="selectTeam(team.id)"
               >
-                <img
-                  class="block h-full w-full rounded-[3px] object-contain"
-                  :src="team.thumbnail || team.image"
-                  alt=""
-                />
+                <span class="image-frame block h-full w-full rounded-[3px]" data-state="loading">
+                  <img
+                    class="block h-full w-full rounded-[3px] object-contain"
+                    x-image="team.thumbnail || team.image"
+                    alt=""
+                  />
+                </span>
               </button>
             </template>
           </div>

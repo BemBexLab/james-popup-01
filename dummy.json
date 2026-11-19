@@ -25,73 +25,77 @@
   "teams": [
     {
       "id": "team-one",
-      "image": "assets/Rectangle 5 (1).png",
-      "imageAlt": "Breakdancer performing on a purple-lit dance floor",
-      "avatar": "assets/Rectangle 6.png",
+      "image": "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=800&q=80",
+      "imageAlt": "Dancers performing on stage",
+      "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=96&h=96&q=80",
       "creativeIndex": "12233",
       "title": "Purple Pulse",
       "description": "Power moves and floorwork.",
       "creator": "Vickey Roy",
       "subscribers": "11.5 M subs",
       "subscribeLabel": "Subscribe",
-      "memberCount": 3
+      "memberCount": 3,
+      "thumbnail": "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=200&q=80"
     },
     {
       "id": "team-two",
-      "image": "assets/Rectangle 5.png",
-      "imageAlt": "Dancer performing in a colorful studio",
-      "avatar": "assets/Rectangle 6 (1).png",
+      "image": "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=800&q=80",
+      "imageAlt": "Live performance with colorful stage lighting",
+      "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=96&h=96&q=80",
       "creativeIndex": "10123",
       "title": "Neon Motion",
       "description": "Freestyle with a street-dance edge.",
       "creator": "Aarav Mehta",
       "subscribers": "8.2 M subs",
       "subscribeLabel": "Subscribe",
-      "memberCount": 5
+      "memberCount": 5,
+      "thumbnail": "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=200&q=80"
     },
     {
       "id": "team-three",
-      "image": "assets/team-crimson.png",
-      "imageAlt": "Dancer performing in red and blue smoke",
-      "avatar": "assets/Rectangle 6 (1).png",
+      "image": "https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=800&q=80",
+      "imageAlt": "Crowd enjoying an outdoor music festival",
+      "avatar": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=96&h=96&q=80",
       "creativeIndex": "11143",
       "title": "Crimson Crew",
       "description": "Sharp choreography. Big energy.",
       "creator": "Jordan Lee",
       "subscribers": "6.4 M subs",
       "subscribeLabel": "Subscribe",
-      "memberCount": 6
+      "memberCount": 6,
+      "thumbnail": "https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=200&q=80"
     },
     {
       "id": "team-four",
-      "image": "assets/team-electric.png",
-      "imageAlt": "Dancer in a blue hoodie jumping against a pink background",
+      "image": "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&w=800&q=80",
+      "imageAlt": "Concert stage illuminated by colorful lights",
       "imagePosition": "top",
-      "avatar": "assets/Rectangle 6.png",
+      "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=96&h=96&q=80",
       "creativeIndex": "13762",
       "title": "Electric Steps",
       "description": "High kicks and creative movement.",
       "creator": "Noah Reed",
       "subscribers": "9.1 M subs",
       "subscribeLabel": "Subscribe",
-      "memberCount": 4
+      "memberCount": 4,
+      "thumbnail": "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&w=200&q=80"
     }
   ],
   "slides": [
     {
-      "image": "assets/Rectangle 5.png",
-      "thumbnail": "assets/Rectangle 11.png",
-      "alt": "Dancer performing in a colorful studio"
+      "image": "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=1200&q=80",
+      "thumbnail": "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=200&q=80",
+      "alt": "Dancers performing on stage"
     },
     {
-      "image": "assets/Rectangle 5 (1).png",
-      "thumbnail": "assets/Rectangle 11.png",
-      "alt": "Breakdancer performing on a purple-lit dance floor"
+      "image": "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1200&q=80",
+      "thumbnail": "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=200&q=80",
+      "alt": "Live performance with colorful stage lighting"
     },
     {
-      "image": "assets/Rectangle 11.png",
-      "thumbnail": "assets/Rectangle 11.png",
-      "alt": "Full-length view of a dancer in the studio"
+      "image": "https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=1200&q=80",
+      "thumbnail": "https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=200&q=80",
+      "alt": "Crowd enjoying an outdoor music festival"
     }
   ],
   "document": {
