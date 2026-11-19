@@ -121,20 +121,33 @@
         class="mx-1 mt-[35px] grid grid-cols-[minmax(0,1fr)_179px_minmax(0,1fr)] items-center max-[1100px]:grid-cols-[minmax(0,1fr)_64px_minmax(0,1fr)] max-[768px]:mx-0 max-[768px]:mt-6 max-[768px]:grid-cols-1 max-[768px]:gap-4"
         aria-label="Competing dance teams"
       >
-        <template x-for="(team, index) in teams" :key="team.id">
+        <template x-for="(team, index) in teams" :key="index">
           <div data-ui="team-entry" class="contents">
             <article
               data-ui="team-card"
-              class="min-w-0 border border-[#e8e7eb] bg-[#f6f7f9] px-2 pt-[9px] pb-2 min-[1100px]:h-[272px]"
+              class="relative min-w-0 border border-[#e8e7eb] bg-[#f6f7f9] px-2 pt-[9px] pb-2 min-[1100px]:h-[272px]"
+              :class="activeSlot === index ? 'ring-2 ring-[#ffd531] ring-offset-2 ring-offset-[#f8f6fa]' : ''"
             >
+              <button
+                data-ui="select-team-slot"
+                type="button"
+                class="absolute inset-0 z-10 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#73509a]"
+                :aria-label="`Select ${index === 0 ? 'left' : 'right'} team box: ${team.title}`"
+                :aria-pressed="activeSlot === index"
+                @click="selectSlot(index)"
+                @focus="selectSlot(index)"
+                @keydown.arrow-left.prevent="changeTeam(-1)"
+                @keydown.arrow-right.prevent="changeTeam(1)"
+              ></button>
               <div
                 data-ui="team-photo"
                 class="relative w-full aspect-[626/216] overflow-hidden"
               >
                 <img
                   class="block w-full h-full object-cover"
-                  :src="index === 1 ? slides[activeSlide].image : team.image"
-                  :alt="index === 1 ? slides[activeSlide].alt : team.imageAlt"
+                  :src="team.image"
+                  :alt="team.imageAlt"
+                  :class="team.imagePosition === 'top' ? 'object-top' : 'object-center'"
                 />
                 <span
                   data-ui="creative-index"
@@ -189,10 +202,10 @@
                 </div>
                 <button
                   data-ui="subscribe"
-                  class="flex h-6 min-w-[78px] shrink-0 items-center justify-center gap-[5px] border border-[#e3e4e8] bg-transparent px-[5px] text-[11px] leading-[14px] font-semibold whitespace-nowrap hover:bg-[#fff3bb] aria-pressed:bg-[#fff3bb] max-[768px]:h-9 max-[768px]:px-2"
+                  class="relative z-20 flex h-6 min-w-[78px] shrink-0 items-center justify-center gap-[5px] border border-[#e3e4e8] bg-transparent px-[5px] text-[11px] leading-[14px] font-semibold whitespace-nowrap hover:bg-[#fff3bb] aria-pressed:bg-[#fff3bb] max-[768px]:h-9 max-[768px]:px-2"
                   type="button"
-                  @click="subscribed[index] = !subscribed[index]"
-                  :aria-pressed="subscribed[index]"
+                  @click.stop="toggleSubscription(team.id)"
+                  :aria-pressed="!!subscriptions[team.id]"
                 >
                   <img
                     data-ui="subscribe-icon"
@@ -200,7 +213,7 @@
                     src="assets/Vector.svg"
                     alt=""
                   /><span
-                    x-text="subscribed[index] ? 'Subscribed' : team.subscribeLabel"
+                    x-text="subscriptions[team.id] ? 'Subscribed' : team.subscribeLabel"
                   ></span>
                 </button>
                 <span
@@ -223,6 +236,8 @@
         </template>
       </section>
 
+      <p class="sr-only" aria-live="polite" x-text="teams.length ? `Selected ${activeSlot === 0 ? 'left' : 'right'} team box. Current team: ${teams[activeSlot].title}. Use the team chevrons or thumbnails to change it.` : ''"></p>
+
       <section
         data-ui="battle-resources"
         class="mt-[34px] flex items-center gap-[89px] pl-[172px] max-[1100px]:justify-center max-[1100px]:gap-6 max-[1100px]:pl-0 max-[768px]:mt-6 max-[768px]:flex-col"
@@ -231,16 +246,17 @@
         <div
           data-ui="carousel"
           class="flex min-w-0 shrink-0 items-center gap-[18px] max-[768px]:w-full max-[768px]:justify-center max-[768px]:gap-2"
-          aria-label="Battle photo gallery"
-          @keydown.arrow-left.prevent="changeSlide(-1)"
-          @keydown.arrow-right.prevent="changeSlide(1)"
+          aria-label="Choose a team for the selected box"
+          @keydown.arrow-left.prevent="changeTeam(-1)"
+          @keydown.arrow-right.prevent="changeTeam(1)"
         >
           <button
             data-ui="carousel-arrow previous"
             class="grid h-[21px] w-[21px] shrink-0 place-items-center rounded-full border border-[#ecebef] bg-[#f9fafb] p-0 text-[#ffd531] shadow-[0_6px_14px_#30334420] hover:bg-[#fff2b4] max-[768px]:h-8 max-[768px]:w-8"
             type="button"
-            aria-label="Previous photo"
-            @click="changeSlide(-1)"
+            aria-label="Previous team"
+            :disabled="availableTeams.length < 2"
+            @click="changeTeam(-1)"
           >
             <svg
               class="block h-[10px] w-[10px]"
@@ -257,21 +273,22 @@
           </button>
           <div
             data-ui="thumbnails"
-            class="flex min-w-0 items-center gap-[11px] max-[768px]:flex-1 max-[768px]:max-w-[260px] max-[768px]:gap-2"
+            class="flex min-w-0 max-w-[357px] items-center gap-[11px] overflow-x-auto max-[768px]:flex-1 max-[768px]:max-w-[260px] max-[768px]:gap-2"
           >
-            <template x-for="(slide, index) in slides" :key="index">
+            <template x-for="team in availableTeams" :key="team.id">
               <button
                 data-ui="thumbnail"
                 class="block h-[52px] w-[81px] shrink-0 rounded-[4px] border bg-transparent p-[2px] transition-opacity max-[768px]:h-12 max-[768px]:min-w-0 max-[768px]:w-0 max-[768px]:flex-1"
-                :class="activeSlide === index ? 'border-[#ffd531] opacity-100' : 'border-[#e5e4e9] opacity-40 hover:opacity-100'"
+                :class="activeTeamId === team.id ? 'border-[#ffd531] opacity-100' : 'border-[#e5e4e9] opacity-40 hover:opacity-100'"
                 type="button"
-                :aria-label="'Show battle photo ' + (index + 1)"
-                :aria-pressed="activeSlide === index"
-                @click="activeSlide = index"
+                :aria-label="'Choose team: ' + team.title"
+                :title="team.title"
+                :aria-pressed="activeTeamId === team.id"
+                @click="selectTeam(team.id)"
               >
                 <img
                   class="block h-full w-full rounded-[3px] object-contain"
-                  :src="slide.thumbnail"
+                  :src="team.thumbnail || team.image"
                   alt=""
                 />
               </button>
@@ -281,8 +298,9 @@
             data-ui="carousel-arrow"
             class="grid h-[21px] w-[21px] shrink-0 place-items-center rounded-full border border-[#ecebef] bg-[#f9fafb] p-0 text-[#ffd531] shadow-[0_6px_14px_#30334420] hover:bg-[#fff2b4] max-[768px]:h-8 max-[768px]:w-8"
             type="button"
-            aria-label="Next photo"
-            @click="changeSlide(1)"
+            aria-label="Next team"
+            :disabled="availableTeams.length < 2"
+            @click="changeTeam(1)"
           >
             <svg
               class="block h-[10px] w-[10px]"
